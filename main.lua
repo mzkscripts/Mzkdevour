@@ -1,12 +1,203 @@
---[[
- .____                  ________ ___.    _____                           __                
- |    |    __ _______   \_____  \\_ |___/ ____\_ __  ______ ____ _____ _/  |_  ___________ 
- |    |   |  |  \__  \   /   |   \| __ \   __\  |  \/  ___// ___\\__  \\   __\/  _ \_  __ \
- |    |___|  |  // __ \_/    |    \ \_\ \  | |  |  /\___ \\  \___ / __ \|  | (  <_> )  | \/
- |_______ \____/(____  /\_______  /___  /__| |____//____  >\___  >____  /__|  \____/|__|   
-         \/          \/         \/    \/                \/     \/     \/                   
-          \_Welcome to LuaObfuscator.com   (Alpha 0.10.9) ~  Much Love, Ferib 
+-- Full working script - mzk hub (mzk devour)
+task.wait(1)
 
-]]--
+local Players = game:GetService("Players")
+local Lighting = game:GetService("Lighting")
+local TweenService = game:GetService("TweenService")
+local LocalPlayer = Players.LocalPlayer
+local Backpack = LocalPlayer:WaitForChild("Backpack")
 
-local v0=(24256 -8092) + (((((5668 -(232 + 281)) -(113 + 78 + (2353 -(976 + 277)))) + (282159 -(892 + 65)) + 82899) -((69545 -(814 + 45)) + (490727 -285017))) -((19651 -9019) + 56968)) + (((352164 -160335) -((632 -(87 + 263)) + (775 -(67 + 113)))) -(112275 -(1117 + 406 + (279 -165)))) ;v0=v0 + ((76 + 26 + (43 -32)) -((36 -(962 -(802 + 150))) + ((3835 -2703) -(68 + 997)))) + (((6700 -4211) -((409 -183) + (4943 -3899))) -(47 + 72 + ((3160 + 1181) -(4341 -(915 + 82))))) ;local v1=(3408008 -2204435) -(19 + 13 + (851 -(745 + 21))) ;local v2=(1585894 -380021) + (25785 -(1069 + 118)) ;local v3=(4036599 -2257351) + (13659092 -7414859) ;if (v2>v1) then print("true");end if ((((167 + 791) -(701 + 191 + (1120 -(87 + 968)))) + v3)>v2) then print("obfuscate the conditions!");end print("Clicking [Strings] will completely hide this string!");do local v4=0;local v5;while true do if (v4==(1 -0)) then for v6,v7 in pairs(v5) do if v7 then print("Prime found: "   .. v6 );end end break;end if (v4==(0 + 0)) then function sieve_of_eratosthenes(v8) local v9=791 -(368 + 423) ;local v10;local v11;while true do if (v9==(0 -0)) then v10=(18 -(10 + 8)) -0 ;v11=nil;v9=3 -2 ;end if (v9==(443 -(416 + 26))) then while true do local v12=701 -(376 + 325) ;while true do if (v12==(0 -0)) then if ((0 -0)==v10) then local v13=0;while true do if (v13==(0 -0)) then v11={};for v15=1 + 0 ,v8 do v11[v15]=((1 -0) -(438 -(145 + 293)))~=v15 ;end v13=431 -(44 + 386) ;end if ((377 -(85 + 291))==v13) then v10=1;break;end end end if (v10==(1487 -(998 + 488))) then local v14=0 -0 ;while true do if (v14==(0 + 0)) then for v17=3 -(1 + 0) ,math.floor(math.sqrt(v8)) do if v11[v17] then for v18=v17 * v17 ,v8,v17 do v11[v18]=false;end end end return v11;end end end break;end end end break;end end end v5=sieve_of_eratosthenes(344 + 76 );v4=773 -(201 + 571) ;end end end print("How to obfuscate best?");
+-- Remove old UI
+local old = game.CoreGui:FindFirstChild("mzkfpsDevourUI")
+if old then
+    old:Destroy()
+end
+
+--  FPS BOOST (Mantido Original)
+Lighting.GlobalShadows = false
+Lighting.EnvironmentDiffuseScale = 0
+Lighting.EnvironmentSpecularScale = 0
+
+for _, v in ipairs(Lighting:GetChildren()) do
+    if v:IsA("PostEffect") then
+        v.Enabled = false
+    end
+end
+
+for _, v in ipairs(workspace:GetDescendants()) do
+    if v:IsA("ParticleEmitter") then
+        v.Enabled = false
+    end
+end
+
+--  CHARACTER CLEAN (Mantido Original)
+local function cleanCharacter(char)
+    if char == LocalPlayer.Character then return end
+    for _, a in ipairs(char:GetChildren()) do
+        if a:IsA("Accessory") then
+            a:Destroy()
+        end
+    end
+    char.ChildAdded:Connect(function(c)
+        if c:IsA("Accessory") then
+            c:Destroy()
+        end
+    end)
+end
+
+for _, h in ipairs(workspace:GetDescendants()) do
+    if h:IsA("Humanoid") then
+        cleanCharacter(h.Parent)
+    end
+end
+
+workspace.DescendantAdded:Connect(function(d)
+    if d:IsA("Humanoid") then
+        task.wait(0.1)
+        cleanCharacter(d.Parent)
+    end
+end)
+
+-- = GUI (Visual Novo: Vermelho Escuro + Borda Animada)
+local gui = Instance.new("ScreenGui")
+gui.Name = "mzkfpsDevourUI"
+gui.Parent = game.CoreGui
+gui.ResetOnSpawn = false
+
+local main = Instance.new("Frame")
+main.Parent = gui
+main.Size = UDim2.new(0, 230, 0, 125)
+main.Position = UDim2.new(0.5, -115, 0.5, -62)
+main.BackgroundColor3 = Color3.fromRGB(45, 0, 0) -- VERMELHO ESCURO
+main.BorderSizePixel = 0
+main.Active = true
+main.Draggable = true
+
+local mainCorner = Instance.new("UICorner", main)
+mainCorner.CornerRadius = UDim.new(0, 22)
+
+-- BORDA COM EFEITO DE LISTRA BRANCA
+local stroke = Instance.new("UIStroke", main)
+stroke.Thickness = 2
+stroke.Color = Color3.new(1, 1, 1) -- Branco Base para o Gradiente
+stroke.Transparency = 0.15
+
+local strokeGradient = Instance.new("UIGradient", stroke)
+strokeGradient.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 100, 100)),   -- Vermelho Claro
+    ColorSequenceKeypoint.new(0.45, Color3.fromRGB(255, 100, 100)), -- Vermelho Claro
+    ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255, 255, 255)),  -- LISTRA BRANCA
+    ColorSequenceKeypoint.new(0.55, Color3.fromRGB(255, 100, 100)), -- Vermelho Claro
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 100, 100)),   -- Vermelho Claro
+})
+
+-- AnimaÃ§Ã£o da Borda
+task.spawn(function()
+    while true do
+        local tween = TweenService:Create(strokeGradient, TweenInfo.new(1.5, Enum.EasingStyle.Linear), {Offset = Vector2.new(1, 0)})
+        strokeGradient.Offset = Vector2.new(-1, 0)
+        tween:Play()
+        tween.Completed:Wait()
+        task.wait(2) -- Tempo de espera entre cada "passada" da listra
+    end
+end)
+
+-- Main title
+local title = Instance.new("TextLabel")
+title.Parent = main
+title.Size = UDim2.new(1, -16, 0, 24)
+title.Position = UDim2.new(0, 8, 0, 6)
+title.BackgroundTransparency = 1
+title.Text = "mzk devourer"
+title.Font = Enum.Font.GothamBold
+title.TextSize = 18
+title.TextColor3 = Color3.new(1, 1, 1)
+title.TextXAlignment = Enum.TextXAlignment.Center
+title.TextYAlignment = Enum.TextYAlignment.Center
+
+-- TikTok small text
+local tiktok = Instance.new("TextLabel")
+tiktok.Parent = main
+tiktok.Size = UDim2.new(1, -16, 0, 14)
+tiktok.Position = UDim2.new(0, 8, 0, 30)
+tiktok.BackgroundTransparency = 1
+tiktok.Text = "TikTok: mzkcommunity"
+tiktok.Font = Enum.Font.Gotham
+tiktok.TextSize = 12
+tiktok.TextColor3 = Color3.fromRGB(255, 200, 200)
+tiktok.TextXAlignment = Enum.TextXAlignment.Center
+tiktok.TextYAlignment = Enum.TextYAlignment.Center
+
+-- Button
+local button = Instance.new("TextButton")
+button.Parent = main
+button.Size = UDim2.new(1, -40, 0, 44)
+button.Position = UDim2.new(0, 20, 0, 54)
+button.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- BotÃ£o branco original
+button.Text = "Devour"
+button.Font = Enum.Font.GothamBold
+button.TextSize = 18
+button.TextColor3 = Color3.fromRGB(150, 0, 0) -- Texto do botÃ£o em vermelho
+button.BorderSizePixel = 0
+button.AutoButtonColor = true
+
+local btnCorner = Instance.new("UICorner", button)
+btnCorner.CornerRadius = UDim.new(0, 16)
+
+-- Discord text
+local discord = Instance.new("TextLabel")
+discord.Parent = main
+discord.Size = UDim2.new(1, 0, 0, 20)
+discord.Position = UDim2.new(0, 0, 1, -22)
+discord.BackgroundTransparency = 1
+discord.Text = "https://discord.gg/W98hjTa6w"
+discord.Font = Enum.Font.Gotham
+discord.TextSize = 14
+discord.TextColor3 = Color3.fromRGB(255, 200, 200)
+discord.TextXAlignment = Enum.TextXAlignment.Center
+
+--  BUTTON LOGIC (Mantido Original)
+local originalText = "Devour"
+
+button.MouseButton1Click:Connect(function()
+    button.Text = "WORKING"
+    button.AutoButtonColor = false
+
+    local char = LocalPlayer.Character
+    if not char then
+        button.Text = "ERROR"
+        task.wait(1)
+        button.Text = originalText
+        button.AutoButtonColor = true
+        return
+    end
+
+    local humanoid = char:FindFirstChildOfClass("Humanoid")
+    local tool = Backpack:FindFirstChild("Quantum Cloner")
+
+    if not humanoid or not tool then
+        button.Text = "ERROR"
+        task.wait(1)
+        button.Text = originalText
+        button.AutoButtonColor = true
+        return
+    end
+
+    -- Equip and activate tool
+    humanoid:EquipTool(tool)
+    task.wait(0.1)
+
+    for _, t in ipairs(Backpack:GetChildren()) do
+        if t:IsA("Tool") then
+            t.Parent = char
+        end
+    end
+
+    task.wait(0.1)
+    tool:Activate()
+
+    task.delay(0.6, function()
+        button.Text = originalText
+        button.AutoButtonColor = true
+    end)
+end)
